@@ -8,8 +8,10 @@ app.controller("crawlcontroller", function($http, $scope,$resource,$uibModal,Not
 		$scope.crawl_result = $scope.crawls_resource.get({'page' : $scope.page}).$promise.then(function(data) {
 		   $scope.crawls['items'] = data.results
 		   $scope.crawls['next'] = data.next
-		   $scope.selected_crawl = {"id" : $scope.crawls['items'][0]['id']}
-	       $scope.selected_crawl['images'] = $scope.images_resource.get({"crawl" : $scope.selected_crawl.id,'page' : $scope.images_page})
+		   if (data.count != 0) {
+			   $scope.selected_crawl = {"id" : $scope.crawls['items'][0]['id']}
+		       $scope.selected_crawl['images'] = $scope.images_resource.get({"crawl" : $scope.selected_crawl.id,'page' : $scope.images_page})
+	       }
 	   });
 	}
 	$scope.crawl_changed = function(crawl_id) {
@@ -52,6 +54,7 @@ app.controller("crawlcontroller", function($http, $scope,$resource,$uibModal,Not
 	 $modalInstance.result.then(function(result) {
 	 		k = Notification.info({message: 'Crawling in progress.Do not close..', positionY: 'bottom', positionX: 'right',delay:""})
             var save_instance = $scope.crawls_resource.save({"url": result.url,"status" : "Started"}).$promise.then(function(data) {
+            $scope.crawls['items'].unshift(data)
             k.$$state.value.kill()
             Notification.success({message: 'Crawl completed', positionY: 'bottom', positionX: 'right'})
             })

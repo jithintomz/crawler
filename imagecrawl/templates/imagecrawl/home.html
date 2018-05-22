@@ -49,6 +49,9 @@
                           {[{x.started_time | date : "short"}]}
                         </span>
                         </li>
+                        <li class="text-center" ng-hide = "crawls['items'].length!= 0">
+                            No crawls found
+                        </li>
                 </ul>
             </div>
           </div>
@@ -57,7 +60,7 @@
     <div class="col-sm-8">
         <div class="gallery no-border" when-scrolled = "load_next_images()">
         <img class="col-sm-2" ng-repeat =  "image in selected_crawl.images.results" ng-src="{[{image.image_url}]}">
-        <span class="no-data-found" ng-hide = "selected_crawl.images.results!=0">No Images found in crawling</span>
+        <span class="no-data-found" ng-hide = "selected_crawl.images.results.length!=0">No Images found in crawling</span>
         </div>
     </div>
     </div>
