@@ -54,6 +54,10 @@ app.controller("crawlcontroller", function($http, $scope,$resource,$uibModal,Not
 	 $modalInstance.result.then(function(result) {
 	 		k = Notification.info({message: 'Crawling in progress.Do not close..', positionY: 'bottom', positionX: 'right',delay:""})
             var save_instance = $scope.crawls_resource.save({"url": result.url,"status" : "Started"}).$promise.then(function(data) {
+            if ($scope.crawls['items'].length == 0) {
+            	$scope.selected_crawl = data
+            	$scope.crawl_changed(data.id)
+            }
             $scope.crawls['items'].unshift(data)
             k.$$state.value.kill()
             Notification.success({message: 'Crawl completed', positionY: 'bottom', positionX: 'right'})
