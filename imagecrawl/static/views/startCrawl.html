@@ -1,0 +1,25 @@
+
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title-{{name}}">Crawl Page</h3>
+</div>
+<div class="modal-body" id="modal-body-{{name}}">
+   <form class="form-horizontal" name="crawlForm">
+                <div class="form-group" ng-class="{ 'has-error' : (submitted)&&(crawlForm.crawlUrl.$valid==false)}">
+                  <label for="crawlUrl" class="col-sm-2 control-label">Url</label>
+                  <div class="col-sm-10">
+                    <input type="url" class="form-control" name="crawlUrl" ng-model = "crawlParams.url"  placeholder="Url" required>
+                  </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : (submitted)&&(crawlForm.crawlDepth.$valid==false)}">
+                  <label for="crawlDepth" class="col-sm-2 control-label">Depth</label>
+
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" min=1 max=20 name="crawlDepth" ng-model = "crawlParams.depth"  placeholder="Crawl depth" required>
+                  </div>
+                </div>
+            </form>
+</div>
+<div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok(crawlForm)">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>

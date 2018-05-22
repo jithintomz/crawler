@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="initial-scale=1" name="viewport">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{{ STATIC_URL }}css/styles.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.4.14/angular-resource.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular-cookies.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.4/ui-bootstrap-tpls.min.js"></script>
+    <script src="{{ STATIC_URL }}app/crawlmodule.js?v=1.7">
+    </script>
+    <script src="{{ STATIC_URL }}app/crawlcontroller.js?v=1.7">
+    </script>
+</head>
+
+<body ng-app = "crawlApp">
+    <div ng-controller = "crawlcontroller">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Crawler </a>
+            </div>
+        </div>
+    </nav>
+    <div >
+    <div class="row" >
+    <div class="col-sm-4">
+        <div class="crawl-list" when-scrolled = "load_next_crawls()">
+        <div class="box no-border">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crawls</h3>
+                <a href="javascript:void(0)" class="pull-right" ng-click="startCrawl()">+ Crawl another page</a>
+            </div>
+            <div class="box-body no-padding">
+              <ul class="products-list product-list-in-box">
+                        <li ng-repeat = "x in crawls['items']" class="item showonhoverparent" ng-class="{'selected' : x.id == selected_crawl.id}" ng-click = "crawl_changed(x.id)">
+                        <a href="javascript:void(0)">{[{x.url}]}</a><span ng-click = "delete_crawl(x.id,$index)" class="glyphicon glyphicon-trash pull-right text-danger showonhoverchild tools"></span>
+                                <span class="product-description">
+                          {[{x.started_time | date : "short"}]}
+                        </span>
+                        </li>
+                </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="gallery no-border" when-scrolled = "load_next_images()">
+        <img class="col-sm-2" ng-repeat =  "image in selected_crawl.images.results" ng-src="{[{image.image_url}]}">
+        <span class="no-data-found" ng-hide = "selected_crawl.images.results!=0">No Images found in crawling</span>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>
