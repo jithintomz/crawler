@@ -18,13 +18,12 @@ class Crawler():
             child_list = []
             try:
                 response = requests.get(url)
-                if response.status_code == 200:
-                    soup_obj = BeautifulSoup(response.text, 'html.parser')
-                    child_list += [[url,urlparse.urljoin(url, x.get('src'))] for x in soup_obj.findAll('img') if x.get('src') is not None]
-                    for link in soup_obj.findAll('a', attrs={'href': re.compile("^http://")}):
-                        child_url = link.get('href')
-                        if child_url not in self.already_crawled:
-                            child_list = itertools.chain(child_list,self.__crawl(child_url,depth-1))
+                soup_obj = BeautifulSoup(response.text, 'html.parser')
+                child_list += [[url,urlparse.urljoin(url, x.get('src'))] for x in soup_obj.findAll('img') if x.get('src') is not None]
+                for link in soup_obj.findAll('a', attrs={'href': re.compile("^http://")}):
+                    child_url = link.get('href')
+                    if child_url not in self.already_crawled:
+                        child_list = itertools.chain(child_list,self.__crawl(child_url,depth-1))
             except requests.exceptions.ConnectionError:
                 pass;
             for k in child_list:

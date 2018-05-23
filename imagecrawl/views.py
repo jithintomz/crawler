@@ -31,6 +31,7 @@ class CrawlViewSet(viewsets.ModelViewSet):
         objects = [Image(crawl = crawl_obj,image_url = item[1]) for item in final_list]
         Image.objects.bulk_create(objects)
         crawl_obj.finished_time = timezone.now()
+        crawl_obj.status=3;
         crawl_obj.save()
         serialized_crawl = serializers.CrawlSerializer(crawl_obj)
         headers = self.get_success_headers(serializer.data)
@@ -41,7 +42,7 @@ class CrawlViewSet(viewsets.ModelViewSet):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `username` query parameter in the URL.
         """
-        queryset = Crawl.objects.all().order_by('-id')
+        queryset = Crawl.objects.filter(status = 3).order_by('-id')
         return queryset
 
 

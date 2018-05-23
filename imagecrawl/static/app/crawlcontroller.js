@@ -84,6 +84,9 @@ app.controller("crawlcontroller", function($http, $scope,$resource,$uibModal,Not
 
 	$scope.delete_crawl = function(id,index){
 		$scope.crawls_resource.delete({ 'id':id }).$promise.then(function(data) {
+			if (id == $scope.selected_crawl.id) {
+				$scope.selected_crawl = {}
+			}
 			$scope.crawls['items'].splice(index, 1)
 			Notification.success({message: 'Deleted Successfully', positionY: 'bottom', positionX: 'right'})
 		})
